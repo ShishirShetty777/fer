@@ -1,5 +1,5 @@
 streamlit==1.41.1
-opencv-python==4.10.0.84
+opencv-python-headless
 torch
 torchvision
 timm==1.0.12
