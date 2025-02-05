@@ -11,14 +11,15 @@ import gdown
 
 # Function to download Caffe files if they are not already available
 def download_caffe_files():
-    prototxt_url = 'https://drive.google.com/uc?id=1Akh9Qw1b_x9go3N6QXY1r2vbnyh8rJgJ'  # Replace with actual URL
-    caffemodel_url = 'https://drive.google.com/uc?id=1OZ2scR5F7M0xQy73hhbxajXnl3W8th1x'  # Replace with actual URL
+    prototxt_url = 'https://drive.google.com/uc?id=1oUKXqHOGntTZZ-5tgMSRDZllo4Yrt6Lk'  # Corrected URL
+    caffemodel_url = 'https://drive.google.com/uc?id=1OZ2scR5F7M0xQy73hhbxajXnl3W8th1x'  # Corrected URL
 
     # Download Caffe prototxt and model files if they are not already present
     if not os.path.exists('deploy.prototxt'):
         gdown.download(prototxt_url, 'deploy.prototxt', quiet=False)
     if not os.path.exists('res10_300x300_ssd_iter_140000_fp16.caffemodel'):
         gdown.download(caffemodel_url, 'res10_300x300_ssd_iter_140000_fp16.caffemodel', quiet=False)
+
 
 # Download the Caffe files
 download_caffe_files()
