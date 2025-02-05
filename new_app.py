@@ -6,7 +6,22 @@ from PIL import Image
 import timm
 import torch.nn as nn
 from torchvision import transforms
+import os
 import gdown
+
+# Function to download Caffe files if they are not already available
+def download_caffe_files():
+    prototxt_url = 'https://drive.google.com/uc?id=1Akh9Qw1b_x9go3N6QXY1r2vbnyh8rJgJ'  # Replace with actual URL
+    caffemodel_url = 'https://drive.google.com/uc?id=1OZ2scR5F7M0xQy73hhbxajXnl3W8th1x'  # Replace with actual URL
+
+    # Download Caffe prototxt and model files if they are not already present
+    if not os.path.exists('deploy.prototxt'):
+        gdown.download(prototxt_url, 'deploy.prototxt', quiet=False)
+    if not os.path.exists('res10_300x300_ssd_iter_140000_fp16.caffemodel'):
+        gdown.download(caffemodel_url, 'res10_300x300_ssd_iter_140000_fp16.caffemodel', quiet=False)
+
+# Download the Caffe files
+download_caffe_files()
 
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -33,16 +48,15 @@ class EnhancedFERNet(nn.Module):
 
 @st.cache_resource
 def load_model():
-    # Google Drive file ID
-    file_id = '1oUKXqHOGntTZZ-5tgMSRDZllo4Yrt6Lk'
+    model = EnhancedFERNet()
+    
+    # Replace with your actual Google Drive link to the model
+    model_url = 'https://drive.google.com/uc?id=1oUKXqHOGntTZZ-5tgMSRDZllo4Yrt6Lk'
     output_path = 'combined_model_epoch39.pth'
     
-    # Download the model from Google Drive
-    url = f'https://drive.google.com/uc?id={file_id}'
-    gdown.download(url, output_path, quiet=False)
-    
-    # Load the model
-    model = EnhancedFERNet()
+    # Download model file from Google Drive using gdown
+    gdown.download(model_url, output_path, quiet=False)
+
     state_dict = torch.load(output_path, map_location=device)
     
     # 1. Remove attention-related parameters from state_dict
