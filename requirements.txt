@@ -1,6 +1,6 @@
 streamlit==1.41.1
 opencv-python==4.10.0.84
-torch==2.5.0+cu118
+torch==2.5.0
 torchvision==0.20.0+cu118
 torchaudio==2.5.0+cu118
 timm==1.0.12
