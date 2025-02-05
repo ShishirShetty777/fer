@@ -6,6 +6,7 @@ from PIL import Image
 import timm
 import torch.nn as nn
 from torchvision import transforms
+import gdown
 
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -32,8 +33,17 @@ class EnhancedFERNet(nn.Module):
 
 @st.cache_resource
 def load_model():
+    # Google Drive file ID
+    file_id = '1oUKXqHOGntTZZ-5tgMSRDZllo4Yrt6Lk'
+    output_path = 'combined_model_epoch39.pth'
+    
+    # Download the model from Google Drive
+    url = f'https://drive.google.com/uc?id={file_id}'
+    gdown.download(url, output_path, quiet=False)
+    
+    # Load the model
     model = EnhancedFERNet()
-    state_dict = torch.load('combined_model_epoch39.pth', map_location=device)
+    state_dict = torch.load(output_path, map_location=device)
     
     # 1. Remove attention-related parameters from state_dict
     filtered_state_dict = {k: v for k, v in state_dict.items() 
@@ -41,7 +51,6 @@ def load_model():
     
     # 2. Load state dict with strict=False for verification
     load_result = model.load_state_dict(filtered_state_dict, strict=False)
-    
     
     return model.eval().to(device)
 
